@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>منوی رستوران</title>
+  <style>
+    body {
+      font-family: 'Tahoma', sans-serif;
+      background: #f8f8f8;
+      padding: 20px;
+      margin: 0;
+      direction: rtl;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .tab {
+      background: #ddd;
+      padding: 10px 20px;
+      margin: 5px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .tab.active {
+      background: #3498db;
+      color: white;
+      font-weight: bold;
+    }
+
+    .menu {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+    }
+
+    .card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+    }
+
+    .card-body {
+      padding: 15px;
+    }
+
+    .card-body h3 {
+      margin: 0;
+      font-size: 18px;
+      color: #2c3e50;
+    }
+
+    .card-body p {
+      font-size: 14px;
+      color: #7f8c8d;
+      margin: 5px 0;
+    }
+
+    .price {
+      color: #e67e22;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>منوی رستوران ما</h1>
+
+  <div class="tabs">
+    <div class="tab active" data-category="all">همه</div>
+    <div class="tab" data-category="starter">پیش‌غذا</div>
+    <div class="tab" data-category="main">غذای اصلی</div>
+    <div class="tab" data-category="drink">نوشیدنی</div>
+  </div>
+
+  <div class="menu" id="menu-container">
+    <!-- آیتم‌ها اینجا لود می‌شن -->
+  </div>
+
+  <script>
+    const items = [
+      { name: 'سوپ جو', category: 'starter', description: 'سوپ سنتی با جو و سبزیجات', price: '50,000', image: 'https://via.placeholder.com/300x160.png?text=سوپ+جو' },
+      { name: 'سالاد شیرازی', category: 'starter', description: 'خیار، گوجه و پیاز با آبلیمو', price: '35,000', image: 'https://via.placeholder.com/300x160.png?text=سالاد+شیرازی' },
+      { name: 'چلو کباب کوبیده', category: 'main', description: 'دو سیخ کوبیده با برنج ایرانی', price: '160,000', image: 'https://via.placeholder.com/300x160.png?text=کوبیده' },
+      { name: 'جوجه کباب', category: 'main', description: 'مرغ زعفرانی با برنج کره‌ای', price: '170,000', image: 'https://via.placeholder.com/300x160.png?text=جوجه+کباب' },
+      { name: 'نوشابه خانواده', category: 'drink', description: 'نوشابه کوکاکولا 1.5 لیتری', price: '25,000', image: 'https://via.placeholder.com/300x160.png?text=نوشابه' },
+      { name: 'دوغ محلی', category: 'drink', description: 'دوغ سنتی خنک و گازدار', price: '20,000', image: 'https://via.placeholder.com/300x160.png?text=دوغ' }
+    ];
+
+    const container = document.getElementById('menu-container');
+    const tabs = document.querySelectorAll('.tab');
+
+    function renderMenu(category) {
+      container.innerHTML = '';
+      const filtered = category === 'all' ? items : items.filter(item => item.category === category);
+      filtered.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <img src="${item.image}" alt="${item.name}">
+          <div class="card-body">
+            <h3>${item.name}</h3>
+            <p>${item.description}</p>
+            <div class="price">${item.price} تومان</div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        renderMenu(tab.dataset.category);
+      });
+    });
+
+    // نمایش اولیه
+    renderMenu('all');
+  </script>
+</body>
+</html>
